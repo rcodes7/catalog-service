@@ -17,12 +17,12 @@ public class BookService {
     public Book viewBookDetails(String isbn) {
         return this.bookRepository
                 .findByIsbn(isbn)
-                .orElseThrow(() -> new RuntimeException(isbn));
+                .orElseThrow(() -> new BookNotFoundException(isbn));
     }
 
     public Book addBookToCatalog(Book book) {
         if (bookRepository.existsByIsbn(book.isbn())) {
-            throw new RuntimeException(book.isbn());
+            throw new BookAlreadyExistsException(book.isbn());
         }
         return bookRepository.save(book);
     }
